@@ -170,6 +170,8 @@ class MemorySearch:
         }
 
         # Save results after each question is processed
+        # Create output directory if it doesn't exist
+        os.makedirs(os.path.dirname(self.output_path), exist_ok=True)
         with open(self.output_path, "w") as f:
             json.dump(self.results, f, indent=4)
 
