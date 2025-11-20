@@ -1,13 +1,17 @@
 import argparse
 import json
+import os
+import sys
 from collections import defaultdict
 
 import numpy as np
-from openai import OpenAI
 
+# Add parent directory to path to import llm_client
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.llm_client import LLMClient
 from mem0.memory.utils import extract_json
 
-client = OpenAI()
+client = LLMClient()
 
 ACCURACY_PROMPT = """
 Your task is to label an answer to a question as ’CORRECT’ or ’WRONG’. You will be given the following data:
@@ -38,8 +42,7 @@ Just return the label CORRECT or WRONG in a json format with the key as "label".
 
 def evaluate_llm_judge(question, gold_answer, generated_answer):
     """Evaluate the generated answer against the gold answer using an LLM judge."""
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
+    response = client.chat_completion(
         messages=[
             {
                 "role": "user",
@@ -48,7 +51,6 @@ def evaluate_llm_judge(question, gold_answer, generated_answer):
                 ),
             }
         ],
-        response_format={"type": "json_object"},
         temperature=0.0,
     )
     label = json.loads(extract_json(response.choices[0].message.content))["label"]

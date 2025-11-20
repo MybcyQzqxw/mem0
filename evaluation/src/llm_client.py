@@ -37,7 +37,7 @@ class LLMClient:
         )
         self.model = os.getenv("MODEL", "qwen-plus")
     
-    def chat_completion(self, messages, temperature=0, max_tokens=None):
+    def chat_completion(self, messages, temperature=0, max_tokens=None, response_format=None):
         """Create a chat completion (compatible interface)"""
         kwargs = {
             "model": self.model,
@@ -47,6 +47,10 @@ class LLMClient:
         
         if max_tokens:
             kwargs["max_tokens"] = max_tokens
+        
+        # Only add response_format for OpenAI, Qwen might not support it
+        if response_format and self.provider == "openai":
+            kwargs["response_format"] = response_format
         
         response = self.client.chat.completions.create(**kwargs)
         return response

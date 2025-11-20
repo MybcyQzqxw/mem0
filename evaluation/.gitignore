@@ -1,0 +1,36 @@
+# Results directory
+results/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Evaluation outputs
+evaluation_metrics.json
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
