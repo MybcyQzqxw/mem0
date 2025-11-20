@@ -118,7 +118,7 @@ class MemorySearch:
 
         t1 = time.time()
         # Add delay for rate limiting (especially for Qwen API)
-        time.sleep(0.5)  # 500ms delay between requests
+        time.sleep(2.0)  # 2 second delay between requests
         response = self.llm_client.chat_completion(
             messages=[{"role": "user", "content": answer_prompt}], temperature=0.0
         )
