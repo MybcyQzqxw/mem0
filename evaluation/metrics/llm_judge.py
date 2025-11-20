@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from collections import defaultdict
 
 import numpy as np
@@ -42,6 +43,8 @@ Just return the label CORRECT or WRONG in a json format with the key as "label".
 
 def evaluate_llm_judge(question, gold_answer, generated_answer):
     """Evaluate the generated answer against the gold answer using an LLM judge."""
+    # Add delay for rate limiting
+    time.sleep(0.5)  # 500ms delay between requests
     response = client.chat_completion(
         messages=[
             {
