@@ -118,7 +118,7 @@ class MemorySearch:
 
         t1 = time.time()
         response = self.llm_client.chat_completion(
-            messages=[{"role": "system", "content": answer_prompt}], temperature=0.0
+            messages=[{"role": "user", "content": answer_prompt}], temperature=0.0
         )
         t2 = time.time()
         response_time = t2 - t1
