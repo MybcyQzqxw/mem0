@@ -6,11 +6,11 @@ from concurrent.futures import ThreadPoolExecutor
 
 from dotenv import load_dotenv
 from jinja2 import Template
-from openai import OpenAI
 from prompts import ANSWER_PROMPT, ANSWER_PROMPT_GRAPH
 from tqdm import tqdm
 
 from mem0 import MemoryClient
+from src.llm_client import LLMClient
 
 load_dotenv()
 
@@ -23,7 +23,7 @@ class MemorySearch:
             project_id=os.getenv("MEM0_PROJECT_ID"),
         )
         self.top_k = top_k
-        self.openai_client = OpenAI()
+        self.llm_client = LLMClient()
         self.results = defaultdict(list)
         self.output_path = output_path
         self.filter_memories = filter_memories
@@ -117,8 +117,8 @@ class MemorySearch:
         )
 
         t1 = time.time()
-        response = self.openai_client.chat.completions.create(
-            model=os.getenv("MODEL"), messages=[{"role": "system", "content": answer_prompt}], temperature=0.0
+        response = self.llm_client.chat_completion(
+            messages=[{"role": "system", "content": answer_prompt}], temperature=0.0
         )
         t2 = time.time()
         response_time = t2 - t1
