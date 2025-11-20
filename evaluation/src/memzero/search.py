@@ -64,13 +64,19 @@ class MemorySearch:
 
         end_time = time.time()
         if not self.is_graph:
+            # Handle both list and dict responses
+            if isinstance(memories, dict):
+                memory_list = memories.get("results", memories.get("memories", []))
+            else:
+                memory_list = memories
+            
             semantic_memories = [
                 {
                     "memory": memory["memory"],
-                    "timestamp": memory["metadata"]["timestamp"],
-                    "score": round(memory["score"], 2),
+                    "timestamp": memory.get("metadata", {}).get("timestamp", ""),
+                    "score": round(memory.get("score", 0.0), 2),
                 }
-                for memory in memories
+                for memory in memory_list
             ]
             graph_memories = None
         else:
